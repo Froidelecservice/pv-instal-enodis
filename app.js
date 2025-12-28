@@ -18,3 +18,24 @@ document.addEventListener("DOMContentLoaded", () => {
        ------------------------------------------------------------ */
     document.getElementById("genererPdf").addEventListener("click", genererPdf);
 });
+/* ------------------------------------------------------------
+   Bouton "Installer l'application"
+------------------------------------------------------------ */
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = "block"; // Affiche le bouton
+});
+
+installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const result = await deferredPrompt.userChoice;
+
+    deferredPrompt = null;
+    installBtn.style.display = "none";
+});
