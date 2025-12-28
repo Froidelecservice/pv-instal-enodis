@@ -1,18 +1,19 @@
 /* ============================================================
    EXPORT PDF – VERSION INSTITUTIONNELLE ENODIS
-   Utilise PDF_FIELDS (mapping-coordonnees.js)
+   Chargement automatique du PDF modèle depuis /pdf/pv_modele.pdf
+   Utilise PDF_FIELDS (mapping-coordonnées.js)
    ============================================================ */
 
 async function genererPdf() {
 
     /* ------------------------------------------------------------
-       1. Vérification du PDF modèle
+       1. Chargement automatique du PDF modèle
        ------------------------------------------------------------ */
-    const fileInput = document.getElementById("pdfModele");
-    if (!fileInput.files[0]) {
-        alert("Merci de sélectionner le PDF modèle.");
-        return;
-    }
+    const pdfUrl = "pdf/pv_modele.pdf";   // PDF institutionnel
+    const pdfBytes = await fetch(pdfUrl).then(res => res.arrayBuffer());
+    const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+    const page = pdfDoc.getPages()[0];
+    const { rgb } = PDFLib;
 
     /* ------------------------------------------------------------
        2. Vérification des champs obligatoires
@@ -42,15 +43,7 @@ async function genererPdf() {
     }
 
     /* ------------------------------------------------------------
-       4. Chargement du PDF modèle
-       ------------------------------------------------------------ */
-    const pdfBytes = await fileInput.files[0].arrayBuffer();
-    const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
-    const page = pdfDoc.getPages()[0];
-    const { rgb } = PDFLib;
-
-    /* ------------------------------------------------------------
-       5. Fonction d’écriture générique
+       4. Fonction d’écriture générique
        ------------------------------------------------------------ */
     const write = (txt, field) => {
         page.drawText(txt || "", {
@@ -62,7 +55,7 @@ async function genererPdf() {
     };
 
     /* ------------------------------------------------------------
-       6. Écriture automatique de tous les champs texte
+       5. Écriture automatique de tous les champs texte
        ------------------------------------------------------------ */
     for (const key in PDF_FIELDS) {
         if (!key.startsWith("signature")) {
@@ -72,7 +65,7 @@ async function genererPdf() {
     }
 
     /* ------------------------------------------------------------
-       7. Signatures
+       6. Signatures
        ------------------------------------------------------------ */
     const techPng = await pdfDoc.embedPng(
         await (await fetch(dataURLFromCanvas("signatureTech"))).arrayBuffer()
@@ -86,7 +79,7 @@ async function genererPdf() {
     page.drawImage(clientPng, PDF_FIELDS.signatureClient);
 
     /* ------------------------------------------------------------
-       8. Export du PDF final
+       7. Export du PDF final
        ------------------------------------------------------------ */
     const pdfFinal = await pdfDoc.save();
     const blob = new Blob([pdfFinal], { type: "application/pdf" });
