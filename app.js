@@ -1,14 +1,9 @@
-/* ============================================================
-   APP.JS – INITIALISATION GLOBALE
-   ============================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+    const pdfViewer = document.getElementById("pdfViewer");
 
-window.addEventListener("load", () => {
+    // Charge automatiquement le PDF modèle institutionnel
+    pdfViewer.src = "pdf/pv_modele.pdf";
 
-    console.log("PV Instal Enodis – Application chargée.");
-
-    // Le bouton PDF est géré dans pdf-export.js
-    const btn = document.getElementById("genererPdf");
-    if (btn) {
-        btn.addEventListener("click", genererPdf);
-    }
+    // Bouton export
+    document.getElementById("genererPdf").addEventListener("click", genererPdf);
 });
