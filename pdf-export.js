@@ -32,14 +32,20 @@ async function genererPdf() {
     }
 
     /* ------------------------------------------------------------
-       3. Vérification signatures
+       3. Vérification signatures (méthode robuste)
        ------------------------------------------------------------ */
-    const techEmpty = document.getElementById("signatureTech").toDataURL() === emptyCanvas("signatureTech");
-    const clientEmpty = document.getElementById("signatureClient").toDataURL() === emptyCanvas("signatureClient");
-
-    if (techEmpty || clientEmpty) {
+    if (isCanvasEmpty("signatureTech") || isCanvasEmpty("signatureClient")) {
         alert("Merci de compléter les signatures avant de générer le PDF.");
         return;
+    }
+
+    function isCanvasEmpty(id) {
+        const canvas = document.getElementById(id);
+        const ctx = canvas.getContext("2d");
+        const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+        // Si tous les pixels sont transparents → signature vide
+        return !pixels.some(v => v !== 0);
     }
 
     /* ------------------------------------------------------------
@@ -60,20 +66,31 @@ async function genererPdf() {
     for (const key in PDF_FIELDS) {
         if (!key.startsWith("signature")) {
             const input = document.getElementById(key);
-            if (input) write(input.value, PDF_FIELDS[key]);
+            if (input) {
+                write(input.value, PDF_FIELDS[key]);
+            } else {
+                console.warn("Champ non trouvé dans le HTML :", key);
+            }
         }
     }
 
     /* ------------------------------------------------------------
-       6. Signatures
+       6. Signatures (version optimisée sans fetch)
        ------------------------------------------------------------ */
-    const techPng = await pdfDoc.embedPng(
-        await (await fetch(dataURLFromCanvas("signatureTech"))).arrayBuffer()
-    );
+    function dataURLToUint8Array(dataURL) {
+        const base64 = dataURL.split(",")[1];
+        const binary = atob(base64);
+        const len = binary.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) bytes[i] = binary.charCodeAt(i);
+        return bytes;
+    }
 
-    const clientPng = await pdfDoc.embedPng(
-        await (await fetch(dataURLFromCanvas("signatureClient"))).arrayBuffer()
-    );
+    const techPngBytes = dataURLToUint8Array(dataURLFromCanvas("signatureTech"));
+    const clientPngBytes = dataURLToUint8Array(dataURLFromCanvas("signatureClient"));
+
+    const techPng = await pdfDoc.embedPng(techPngBytes);
+    const clientPng = await pdfDoc.embedPng(clientPngBytes);
 
     page.drawImage(techPng, PDF_FIELDS.signatureTech);
     page.drawImage(clientPng, PDF_FIELDS.signatureClient);
