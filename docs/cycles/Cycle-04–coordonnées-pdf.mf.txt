@@ -1,0 +1,7 @@
+# Cycle 04 – Coordonnées PDF
+
+Objectifs :
+- Relevé des coordonnées exactes
+- Centralisation dans mapping-coordonnees.js
+
+Résultat : validé.

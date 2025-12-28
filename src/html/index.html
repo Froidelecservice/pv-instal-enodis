@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>PV d'installation – Enodis</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<header class="header-enodis">
+    <img src="../assets/logo-enodis.png" class="logo-enodis" alt="Logo Enodis">
+    <div class="header-title">
+        <h1>Procès-Verbal d’Installation</h1>
+        <p class="subtitle">Froidelec Service – Intervention terrain</p>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- SECTION CLIENT -->
+    <section class="bloc">
+        <h2 class="titre-section">1. Informations Client</h2>
+
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Date</label>
+                <input id="date" type="date">
+            </div>
+
+            <div class="form-group">
+                <label>Nom du client</label>
+                <input id="nomClient" type="text">
+            </div>
+
+            <div class="form-group">
+                <label>Adresse</label>
+                <input id="adresse" type="text">
+            </div>
+
+            <div class="form-group">
+                <label>Ville</label>
+                <input id="ville" type="text">
+            </div>
+
+            <div class="form-group">
+                <label>Représentant</label>
+                <input id="representant" type="text">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION APPAREILS -->
+    <section class="bloc">
+        <h2 class="titre-section">2. Appareils Installés</h2>
+
+        <table class="table-appareils">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>N° de série</th>
+                    <th>Modèle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 6 lignes institutionnelles -->
+                <tr>
+                    <td><input id="type_0" type="text"></td>
+                    <td><input id="serie_0" type="text"></td>
+                    <td><input id="modele_0" type="text"></td>
+                </tr>
+                <tr>
+                    <td><input id="type_1" type="text"></td>
+                    <td><input id="serie_1" type="text"></td>
+                    <td><input id="modele_1" type="text"></td>
+                </tr>
+                <tr>
+                    <td><input id="type_2" type="text"></td>
+                    <td><input id="serie_2" type="text"></td>
+                    <td><input id="modele_2" type="text"></td>
+                </tr>
+                <tr>
+                    <td><input id="type_3" type="text"></td>
+                    <td><input id="serie_3" type="text"></td>
+                    <td><input id="modele_3" type="text"></td>
+                </tr>
+                <tr>
+                    <td><input id="type_4" type="text"></td>
+                    <td><input id="serie_4" type="text"></td>
+                    <td><input id="modele_4" type="text"></td>
+                </tr>
+                <tr>
+                    <td><input id="type_5" type="text"></td>
+                    <td><input id="serie_5" type="text"></td>
+                    <td><input id="modele_5" type="text"></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- SECTION CONTROLES -->
+    <section class="bloc">
+        <h2 class="titre-section">3. Contrôles et Vérifications</h2>
+
+        <div class="form-group">
+            <label>Tests réalisés</label>
+            <textarea id="tests"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Installation</label>
+            <textarea id="installation"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Formation</label>
+            <textarea id="formation"></textarea>
+        </div>
+    </section>
+
+    <!-- SECTION SIGNATURES -->
+    <section class="bloc">
+        <h2 class="titre-section">4. Signatures</h2>
+
+        <div class="grid-2">
+            <div>
+                <label>Technicien</label>
+                <input id="nomTech" type="text">
+
+                <div class="signature-zone">
+                    <canvas id="signatureTech"></canvas>
+                </div>
+                <button class="btn-clear" data-clear="signatureTech">Effacer</button>
+            </div>
+
+            <div>
+                <label>Client</label>
+                <input id="nomClientSign" type="text">
+
+                <div class="signature-zone">
+                    <canvas id="signatureClient"></canvas>
+                </div>
+                <button class="btn-clear" data-clear="signatureClient">Effacer</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION EXPORT -->
+    <section class="bloc bloc-final">
+        <h2 class="titre-section">5. Génération du PV</h2>
+
+        <div class="form-group">
+            <label>PDF modèle Enodis</label>
+            <input id="pdfModele" type="file" accept="application/pdf">
+        </div>
+
+        <button id="genererPdf" class="btn-primary">Générer le PDF d'installation</button>
+    </section>
+
+</main>
+
+<script src="../js/mapping-coordonnees.js"></script>
+<script src="../js/signature.js"></script>
+<script src="../js/pdf-export.js"></script>
+<script src="../js/app.js"></script>
+
+</body>
+</html>

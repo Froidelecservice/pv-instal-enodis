@@ -1,0 +1,6 @@
+git init
+git add .
+git commit -m "Initialisation du projet PV instal Enodis"
+git remote add origin https://github.com/Froidelecservice/pv-instal-enodis.git
+git branch -M main
+git push -u origin main
