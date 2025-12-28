@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* ------------------------------------------------------------
-       1. Sauvegarde automatique des champs
+       1. Champs vides au démarrage
        ------------------------------------------------------------ */
     const fields = document.querySelectorAll("input, textarea");
 
     fields.forEach(field => {
-        const saved = localStorage.getItem(field.id);
-        if (saved) field.value = saved;
+        field.value = ""; // Toujours vide au chargement
 
         field.addEventListener("input", () => {
             localStorage.setItem(field.id, field.value);

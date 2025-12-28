@@ -5,7 +5,12 @@ document.querySelectorAll("canvas").forEach(canvas => {
     canvas.height = canvas.offsetHeight;
 
     const ctx = canvas.getContext("2d");
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "black";
+
     let drawing = false;
+    let lastPos = { x: 0, y: 0 };
 
     function getPos(e) {
         if (e.touches) {
@@ -20,6 +25,7 @@ document.querySelectorAll("canvas").forEach(canvas => {
 
     function start(e) {
         drawing = true;
+        lastPos = getPos(e);
         e.preventDefault();
     }
 
@@ -29,11 +35,15 @@ document.querySelectorAll("canvas").forEach(canvas => {
 
     function draw(e) {
         if (!drawing) return;
+
         const pos = getPos(e);
-        ctx.fillStyle = "black";
+
         ctx.beginPath();
-        ctx.arc(pos.x, pos.y, 2, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.moveTo(lastPos.x, lastPos.y);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+
+        lastPos = pos;
         e.preventDefault();
     }
 
