@@ -1,9 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const pdfViewer = document.getElementById("pdfViewer");
 
-    // Charge automatiquement le PDF modèle institutionnel
-    pdfViewer.src = "pdf/pv_modele.pdf";
+    /* ------------------------------------------------------------
+       1. Sauvegarde automatique des champs
+       ------------------------------------------------------------ */
+    const fields = document.querySelectorAll("input, textarea");
 
-    // Bouton export
+    fields.forEach(field => {
+        const saved = localStorage.getItem(field.id);
+        if (saved) field.value = saved;
+
+        field.addEventListener("input", () => {
+            localStorage.setItem(field.id, field.value);
+        });
+    });
+
+    /* ------------------------------------------------------------
+       2. Bouton d’export PDF
+       ------------------------------------------------------------ */
     document.getElementById("genererPdf").addEventListener("click", genererPdf);
 });

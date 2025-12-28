@@ -1,18 +1,19 @@
 {
-  "name": "PV Instal Enodis",
-  "short_name": "PV Instal",
-  "start_url": "src/html/index.html",
+  "name": "PV Installation Enodis",
+  "short_name": "PV Enodis",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#003366",
+  "theme_color": "#d60000",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "src/assets/icon-192.png",
+      "src": "icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "src/assets/icon-512.png",
+      "src": "icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
